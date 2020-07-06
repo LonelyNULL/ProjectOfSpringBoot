@@ -1,0 +1,38 @@
+server:
+  port: 8080 # 应用端口
+  servlet:
+    context-path: /demo # 应用根路径
+# mybatis-plus配置
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*Mapper.xml # xml映射文件路径
+  type-aliases-package: com.united.erp.salary.infrastructure.repository.model # 类型别名
+  # 全局配置
+  global-config:
+    # 数据库配置
+    db-config:
+      id-type: auto # 全局默认主键类型：数据库ID自增
+      insert-strategy: not_empty # 字符串非空判断，其他类型非NULL判断，即有值才进行insert
+      update-strategy: not_empty # 字符串非空判断，其他类型非NULL判断，即有值才进行update
+      # 逻辑删除字段
+      # 插入: 不作限制
+      # 查找: 追加where条件过滤掉已删除数据,且使用 wrapper.entity 生成的where条件会忽略该字段
+      # 更新: 追加where条件防止更新到已删除数据,且使用 wrapper.entity 生成的where条件会忽略该字段
+      # 删除: 转变为 更新
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+---
+# 开发环境
+spring:
+  profiles: dev
+  # 热部署
+  devtools:
+    restart:
+      enabled: true # 开启热部署
+  # 数据源
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/demo?characterEncoding=utf-8&serverTimezone=GMT%2B8
+    username: root
+    password: root

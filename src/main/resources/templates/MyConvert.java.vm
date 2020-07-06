@@ -1,0 +1,15 @@
+package ${convertPackage};
+
+import org.mapstruct.Mapper;
+import ${package.Entity}.${entity};
+import ${voPackage}.${voName};
+import ${baseConvertPackage}.${baseConvertName};
+
+/**
+ * $!{table.comment} 转换类
+ * @author wukongjian
+ * @date 2019/12/29 9:38
+ */
+@Mapper(componentModel = "spring")
+public interface ${convertName} extends ${baseConvertName}<${entity}, ${voName}> {
+}

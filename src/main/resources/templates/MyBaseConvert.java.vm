@@ -1,0 +1,53 @@
+package ${baseConvertPackage};
+
+import java.util.List;
+
+/**
+ * 基础转换类
+ * @author ${author}
+ * @date ${cfg.datetime}
+ */
+public interface ${baseConvertName}<Origin, Target> {
+
+  /**
+   * 源对象转目标对象
+   *
+   * @param origin 源对象
+   * @return Target 目标对象
+   * @author ${author}
+   * @date ${cfg.datetime}
+   */
+  Target convertTo(Origin origin);
+
+  /**
+   * 目标对象转回源对象
+   *
+   * @param target 目标对象
+   * @return Origin 源对象
+   * @author ${author}
+   * @date ${cfg.datetime}
+   */
+  Origin convertFrom(Target target);
+
+  /**
+   * 源对象列表转目标对象列表
+   *
+   * @param originList 源对象列表
+   * @return List<Target> 目标对象列表
+   * @author ${author}
+   * @date ${cfg.datetime}
+   */
+  List<Target> convertToList(List<Origin> originList);
+
+  /**
+   * 目标对象列表转回源对象列表
+   *
+   * @param targetList 目标对象列表
+   * @return List<Origin> 源对象列表
+   * @author ${author}
+   * @date ${cfg.datetime}
+   */
+  List<Origin> convertFromList(List<Target> targetList);
+
+
+}
