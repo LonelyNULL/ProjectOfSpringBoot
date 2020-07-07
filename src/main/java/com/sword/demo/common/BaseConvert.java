@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * 基础转换类
  * @author sword
- * @date 2020-07-06 19:39:35
+ * @date 2020-07-07 11:13:57
  */
 public interface BaseConvert<Origin, Target> {
 
@@ -15,7 +15,7 @@ public interface BaseConvert<Origin, Target> {
    * @param origin 源对象
    * @return Target 目标对象
    * @author sword
-   * @date 2020-07-06 19:39:35
+   * @date 2020-07-07 11:13:57
    */
   Target convertTo(Origin origin);
 
@@ -25,7 +25,7 @@ public interface BaseConvert<Origin, Target> {
    * @param target 目标对象
    * @return Origin 源对象
    * @author sword
-   * @date 2020-07-06 19:39:35
+   * @date 2020-07-07 11:13:57
    */
   Origin convertFrom(Target target);
 
@@ -35,7 +35,7 @@ public interface BaseConvert<Origin, Target> {
    * @param originList 源对象列表
    * @return List<Target> 目标对象列表
    * @author sword
-   * @date 2020-07-06 19:39:35
+   * @date 2020-07-07 11:13:57
    */
   List<Target> convertToList(List<Origin> originList);
 
@@ -45,7 +45,7 @@ public interface BaseConvert<Origin, Target> {
    * @param targetList 目标对象列表
    * @return List<Origin> 源对象列表
    * @author sword
-   * @date 2020-07-06 19:39:35
+   * @date 2020-07-07 11:13:57
    */
   List<Origin> convertFromList(List<Target> targetList);
 

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * MybatisPlus配置类
  * @author sword
- * @date 2020-07-06 19:39:35
+ * @date 2020-07-07 11:13:57
  */
 @Configuration
 @MapperScan({"com.sword.demo.mapper", "com.sword.demo.*.mapper"})

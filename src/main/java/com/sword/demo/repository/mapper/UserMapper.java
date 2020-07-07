@@ -1,6 +1,6 @@
-package com.sword.demo.mapper;
+package com.sword.demo.repository.mapper;
 
-import com.sword.demo.entity.UserPo;
+import com.sword.demo.repository.entity.UserPo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author sword
- * @date 2020-07-06 19:39:35
+ * @date 2020-07-07 11:13:57
  */
 public interface UserMapper extends BaseMapper<UserPo> {
 

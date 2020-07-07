@@ -14,7 +14,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 /**
  * Swagger配置类
  * @author sword
- * @date 2020-07-06 19:39:35
+ * @date 2020-07-07 11:13:57
  */
 @Configuration
 @EnableSwagger2
@@ -24,7 +24,7 @@ public class SwaggerConfig {
      * 返回swaggerAPI文档
      * @return springfox.documentation.spring.web.plugins.Docket
      * @author sword
-     * @date 2020-07-06 19:39:35
+     * @date 2020-07-07 11:13:57
      */
     @Bean
     public Docket swaggerApi() {
@@ -40,7 +40,7 @@ public class SwaggerConfig {
      * 返回一个API基本信息
      * @return springfox.documentation.service.ApiInfo
      * @author sword
-     * @date 2020-07-06 19:39:35
+     * @date 2020-07-07 11:13:57
      */
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()

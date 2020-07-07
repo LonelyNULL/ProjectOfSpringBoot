@@ -1,0 +1,102 @@
+package ${apiLogAspectPackage};
+
+import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.*;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Collections;
+import java.util.Optional;
+
+/**
+ * 对外接口日志切面
+ * @author ${author}
+ * @date ${cfg.datetime}
+ */
+@Aspect
+@Component
+@Slf4j
+public class ApiAspect {
+
+    /**
+     * 开始时间
+     */
+    private ThreadLocal<Instant> startTime = new ThreadLocal<>();
+
+    /**
+     * 日志切入点：${package.Controller}下的所有的类的所有方法，除构造函数外
+     * @author ${author}
+     * @date ${cfg.datetime}
+     */
+    @Pointcut("execution(public * ${package.Controller}.*.*(..))")
+    public void log() {}
+
+    /**
+     * 接口请求参数日志输出
+     * @param joinPoint 连接点，即目标方法
+     * @author ${author}
+     * @date ${cfg.datetime}
+     */
+    @Before("log()")
+    public void beforeLog(JoinPoint joinPoint) {
+        // 获取http请求参数
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest(); // 获取http请求
+        log.info("----------------http请求参数----------------");
+        log.info("uri = {}", request.getRequestURI()); // 请求uri
+        log.info("contextPath = {}", request.getContextPath()); // 请求uri
+        log.info("method = {}", request.getMethod()); // 请求类型
+        log.info("ip = {}", request.getRemoteAddr()); // 主机地址
+        log.info("cookie = {}", request.getHeader("Cookie")); // Cookie
+        log.info("env = {}", request.getHeader("env")); // env
+        log.info("param = {}", request.getQueryString()); // 查询参数
+        // 请求参数输出通配符
+        String argsWildcard = Optional.ofNullable(joinPoint.getArgs())
+                .map(args -> String.join(", ", Collections.nCopies(args.length, "{}")))
+                .orElse("{}");
+        log.info("args = " + argsWildcard, joinPoint.getArgs()); // 请求参数
+        log.info("api_method = {}.{}", joinPoint.getSignature().getDeclaringTypeName(),
+                joinPoint.getSignature().getName()); // 请求方法
+        log.info("--------------------------------------------");
+        startTime.set(Instant.now());
+    }
+
+    /**
+     * 接口返回值日志输出
+     * @param obj 返回值
+     * @author ${author}
+     * @date ${cfg.datetime}
+     */
+    @AfterReturning(returning = "obj", pointcut = "log()")
+    public void afterReturning(Object obj) {
+        // 获取http请求参数
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest(); // 获取http请求
+        log.info("----------------http响应数据----------------");
+        log.info("uri = {}", request.getRequestURI()); // 请求uri
+        log.info("consumption of time = {} ms", ChronoUnit.MILLIS.between(startTime.get(), Instant.now())); // 消耗时间
+        log.info("response = {}", obj == null ? null : obj.toString()); // 响应数据
+        log.info("--------------------------------------------");
+    }
+
+    /**
+     * 接口异常日志输出
+     * @param joinPoint 连接点，即目标方法
+     * @param throwable 出现的异常
+     * @author ${author}
+     * @date ${cfg.datetime}
+     */
+    @AfterThrowing(throwing = "throwable", pointcut = "log()")
+    public void afterThrowing(JoinPoint joinPoint, Throwable throwable) {
+
+        log.info("----------------http响应异常----------------");
+        log.info("consumption of time = {} ms", ChronoUnit.MILLIS.between(startTime.get(), Instant.now())); // 消耗时间
+        log.info("Throwable = {}", throwable.getMessage()); // 响应数据
+        log.info("--------------------------------------------");
+    }
+}

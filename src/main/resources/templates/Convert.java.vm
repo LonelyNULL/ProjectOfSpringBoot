@@ -3,13 +3,13 @@ package ${convertPackage};
 import org.mapstruct.Mapper;
 import ${package.Entity}.${entity};
 import ${voPackage}.${voName};
-import ${baseConvertPackage}.${baseConvertName};
+import ${baseConvertPackage}.BaseConvert;
 
 /**
  * $!{table.comment} 转换类
- * @author wukongjian
- * @date 2019/12/29 9:38
+ * @author ${author}
+ * @date ${cfg.datetime}
  */
 @Mapper(componentModel = "spring")
-public interface ${convertName} extends ${baseConvertName}<${entity}, ${voName}> {
+public interface ${convertName} extends BaseConvert<${entity}, ${voName}> {
 }

@@ -63,7 +63,7 @@ public class ${table.controllerName} {
     /**
      * 构造函数
      * @param ${serviceInstName} $!{table.comment} 服务类
-     * @param ${convertName} ${convertInstName} 服务类
+     * @param ${convertInstName} 服务类
      * @author ${author}
      * @date ${cfg.datetime}
      */

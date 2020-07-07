@@ -1,4 +1,4 @@
-package com.sword.demo.controller;
+package com.sword.demo.interfaces.api;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -10,9 +10,9 @@ import io.swagger.annotations.ApiOperation;
 
 
 import com.sword.demo.service.UserService;
-import com.sword.demo.model.UserVo;
+import com.sword.demo.interfaces.model.UserVo;
 import com.sword.demo.convert.UserConvert;
-import com.sword.demo.entity.UserPo;
+import com.sword.demo.repository.entity.UserPo;
 
 /**
  * <p>
@@ -20,12 +20,12 @@ import com.sword.demo.entity.UserPo;
  * </p>
  *
  * @author sword
- * @date 2020-07-06 19:39:35
+ * @date 2020-07-07 11:13:57
  */
 @RestController
 @RequestMapping("/user")
 @Api(tags = {"用户表 接口"})
-public class UserController {
+public class UserApi {
 
     /**
     * 用户表 服务类
@@ -40,11 +40,11 @@ public class UserController {
     /**
      * 构造函数
      * @param userService 用户表 服务类
-     * @param UserConvert userConvert 服务类
+     * @param userConvert 服务类
      * @author sword
-     * @date 2020-07-06 19:39:35
+     * @date 2020-07-07 11:13:57
      */
-    public UserController(UserService userService, UserConvert userConvert) {
+    public UserApi(UserService userService, UserConvert userConvert) {
         this.userService = userService;
         this.userConvert = userConvert;
     }
@@ -52,9 +52,9 @@ public class UserController {
     /**
     * 添加用户表
     * @param userVo 用户表
-    * @return com.sword.demo.model.UserVo 用户表
+    * @return com.sword.demo.interfaces.model.UserVo 用户表
     * @author sword
-    * @date 2020-07-06 19:39:35
+    * @date 2020-07-07 11:13:57
     */
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
@@ -70,7 +70,7 @@ public class UserController {
     * @param id 用户表主键id
     * @return boolean 是否删除成功
     * @author sword
-    * @date 2020-07-06 19:39:35
+    * @date 2020-07-07 11:13:57
     */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -84,9 +84,9 @@ public class UserController {
     * 更新用户表
     * @param id 用户表主键id
     * @param userVo 用户表
-    * @return com.sword.demo.model.UserVo 用户表
+    * @return com.sword.demo.interfaces.model.UserVo 用户表
     * @author sword
-    * @date 2020-07-06 19:39:35
+    * @date 2020-07-07 11:13:57
     */
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.CREATED)
@@ -101,9 +101,9 @@ public class UserController {
 
     /**
      * 查询单个用户表
-     * @return com.sword.demo.model.UserVo 单个用户表
+     * @return com.sword.demo.interfaces.model.UserVo 单个用户表
      * @author sword
-     * @date 2020-07-06 19:39:35
+     * @date 2020-07-07 11:13:57
      */
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)

@@ -1,8 +1,8 @@
 package com.sword.demo.convert;
 
 import org.mapstruct.Mapper;
-import com.sword.demo.entity.UserPo;
-import com.sword.demo.model.UserVo;
+import com.sword.demo.repository.entity.UserPo;
+import com.sword.demo.interfaces.model.UserVo;
 import com.sword.demo.common.BaseConvert;
 
 /**

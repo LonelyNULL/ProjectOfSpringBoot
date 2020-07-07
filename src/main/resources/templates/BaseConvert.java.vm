@@ -7,7 +7,7 @@ import java.util.List;
  * @author ${author}
  * @date ${cfg.datetime}
  */
-public interface ${baseConvertName}<Origin, Target> {
+public interface BaseConvert<Origin, Target> {
 
   /**
    * 源对象转目标对象

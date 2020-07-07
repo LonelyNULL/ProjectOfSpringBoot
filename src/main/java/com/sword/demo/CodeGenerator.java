@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableField;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -41,32 +42,41 @@ public class CodeGenerator {
     }
 
     public static void main(String[] args) {
-        String projectPath = System.getProperty("user.dir"); // 当前项目的根路径
-        String sourcePath = projectPath + "/src/main/java"; // 源码路径
-        String resourcePath = projectPath + "/src/main/resources"; // 资源路径
-        String sourceParentPackage = "com.sword.demo"; // 源码父包
-        String voModulePackage = "model"; // 视图对象模块的包名
-        String voModuleObjectSuffix = "Vo"; // 视图对象模块的类名的后缀
-        String commonModulePackage = "common"; // 视图对象模块的包名
-        String configModulePackage = "config"; // 配置对象模块的包名
-        String baseConvertName = "BaseConvert"; // 基础转换类的名称
-        String convertModulePackage = "convert"; // 转换模块的包名
-        String convertModuleObjectSuffix = "Convert"; // 转换模块的类名的后缀
-        String xmlModulePackage = "mapper"; // mybatis的xml文件的包名
-        String xmlModuleFileSuffix = "Mapper"; // mybatis的xml文件的名称的的后缀
+//        String projectPath = System.getProperty("user.dir"); // 当前项目的根路径
+//        String sourcePath = projectPath + "/src/main/java"; // 源码路径
+//        String resourcePath = projectPath + "/src/main/resources"; // 资源路径
+//        String sourceParentPackage = "com.sword.demo"; // 源码父包
+//        String interfacesParentPackage = "interfaces"; // 表示层父包
+//        String repositoryParentPackage = "repository"; // 持久层父包
+//        String voModulePackage = interfacesParentPackage + ".model"; // 视图对象模块的包名
+//        String commonModulePackage = "common"; // 视图对象模块的包名
+//        String configModulePackage = "config"; // 配置对象模块的包名
+//        String convertModulePackage = "convert"; // 转换模块的包名
+//        String xmlModulePackage = "mapper"; // mybatis的xml文件的包名
+//
+//        String baseConvertName = "BaseConvert"; // 基础转换类的名称
+//
+//        String convertModuleObjectSuffix = "Convert"; // 转换模块的类名的后缀
+//
+//        String xmlModuleFileSuffix = "Mapper"; // mybatis的xml文件的名称的的后缀
+//        String resultPackage = interfacesParentPackage + ".response"; // 对外接口统一返回结果类的包名
+//        String resultName = "Result"; // 对外接口统一返回结果类的名称
+//        String voModuleObjectSuffix = "Vo"; // 视图对象模块的类名的后缀
+        CustomProperty customProperty = new CustomProperty();
 
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        gc.setOutputDir(sourcePath); // 生成文件的输出目录
+        gc.setOutputDir(customProperty.getSourcePath()); // 生成文件的输出目录
         gc.setAuthor("sword"); // 开发人员
         gc.setOpen(false); // 是否打开输出目录
         gc.setEntityName("%sPo"); // 设置持久化对象类以Po结尾
-        gc.setServiceName("%sService"); // 设置业务服务接口以Service结尾
-        gc.setServiceImplName("%sServiceImpl"); // 设置业务接口实现类以ServiceImpl结尾
-        gc.setSwagger2(true); // 启用Swagger2 注解
+        gc.setServiceName("%sService"); // 设置服务接口以Service结尾
+        gc.setServiceImplName("%sServiceImpl"); // 设置服务接口实现类以ServiceImpl结尾
+        gc.setControllerName("%sApi"); // 设置对外接口类以Api结尾
+        gc.setSwagger2(true); // 启用Swagger2注解
         mpg.setGlobalConfig(gc); // 设置全局配置
 
         // 数据源配置
@@ -82,7 +92,10 @@ public class CodeGenerator {
         PackageConfig pc = new PackageConfig();
         // 模块就是在父包名下再加一级模块目录，然后再创建controller、entity、mapper、service等目录
 //        pc.setModuleName(scanner("模块名")); // 设置模块名
-        pc.setParent(sourceParentPackage); // 设置父包名
+        pc.setParent(customProperty.getSourceParentPackage()); // 设置父包名
+        pc.setController(customProperty.getInterfacesParentPackage() + ".api"); // 设置对外接口包名
+        pc.setEntity(customProperty.getRepositoryParentPackage() + ".entity"); // 设置实体类包名
+        pc.setMapper(customProperty.getRepositoryParentPackage() + ".mapper"); // 设置mapper包名
         mpg.setPackageInfo(pc); // 设置包配置
 
         // 自定义配置
@@ -125,29 +138,36 @@ public class CodeGenerator {
                 objectMap.put("serviceInstName", StringUtils.firstToLowerCase(tableInfo.getServiceName()));
 
                 // 视图对象类所在的包
-                objectMap.put("voPackage", pc.getParent() + "." + voModulePackage);
+                objectMap.put("voPackage", customProperty.getVoModulePackage());
                 // 视图对象类名称
-                objectMap.put("voName", entityName + voModuleObjectSuffix);
+                objectMap.put("voName", entityName + customProperty.getVoModuleObjectSuffix());
                 // 视图对象类实例名称
-                objectMap.put("voInstName", StringUtils.firstToLowerCase(entityName) + voModuleObjectSuffix);
+                objectMap.put("voInstName", StringUtils.firstToLowerCase(entityName) + customProperty.getVoModuleObjectSuffix());
 
                 // 基础转换类所在的包
-                objectMap.put("baseConvertPackage", sourceParentPackage + "." + commonModulePackage);
-                // 基础转换类名称
-                objectMap.put("baseConvertName", baseConvertName);
+                objectMap.put("baseConvertPackage", customProperty.getCommonModulePackage());
 
                 // 转换类所在的包
-                objectMap.put("convertPackage", pc.getParent() + "." + convertModulePackage);
+                objectMap.put("convertPackage", customProperty.getConvertModulePackage());
                 // 转换类名称
-                objectMap.put("convertName", entityName + convertModuleObjectSuffix);
+                objectMap.put("convertName", entityName + customProperty.getConvertModuleObjectSuffix());
                 // 转换类实例名称
-                objectMap.put("convertInstName", StringUtils.firstToLowerCase(entityName) + convertModuleObjectSuffix);
+                objectMap.put("convertInstName", StringUtils.firstToLowerCase(entityName) + customProperty.getConvertModuleObjectSuffix());
 
                 // 配置类所在的包
-                objectMap.put("configPackage", sourceParentPackage + "." + configModulePackage);
+                objectMap.put("configPackage", customProperty.getConfigModulePackage());
 
                 // 源码父包
-                objectMap.put("sourceParentPackage", sourceParentPackage);
+                objectMap.put("sourceParentPackage", customProperty.getSourceParentPackage());
+
+                // 对外接口统一返回结果类的包名
+                objectMap.put("resultPackage", customProperty.getResultPackage());
+
+                // advice包名
+                objectMap.put("advicePackage", customProperty.getAdvicePackage());
+
+                // ApiLogAspect包名
+                objectMap.put("apiLogAspectPackage", customProperty.getCommonModulePackage());
 
                 return objectMap;
             }
@@ -165,48 +185,66 @@ public class CodeGenerator {
         focList.add(new FileOutConfig("/templates/MyMapper.xml.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                return resourcePath + "/" + xmlModulePackage + "/" + pc.getModuleName() + "/" + getEntityName(tableInfo)
-                        + xmlModuleFileSuffix + StringPool.DOT_XML;
+                return customProperty.getXmlModulePath() + "/" + getEntityName(tableInfo)
+                        + customProperty.getXmlModuleFileSuffix() + StringPool.DOT_XML;
             }
         });
         // 添加#Vo.java的输出文件配置
-        focList.add(new FileOutConfig("/templates/MyVo.java.vm") {
+        focList.add(new FileOutConfig("/templates/Vo.java.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                return sourcePath + "/" + pc.getParent().replace(".", "/") + "/" + voModulePackage
-                        + "/" + getEntityName(tableInfo) + voModuleObjectSuffix + StringPool.DOT_JAVA;
+                return customProperty.getVoModulePath()
+                        + "/" + getEntityName(tableInfo) + customProperty.getVoModuleObjectSuffix() + StringPool.DOT_JAVA;
             }
         });
         // 添加BaseConvert.java的输出文件配置
-        focList.add(new FileOutConfig("/templates/MyBaseConvert.java.vm") {
+        focList.add(new FileOutConfig("/templates/BaseConvert.java.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                return sourcePath + "/" + sourceParentPackage.replace(".", "/") + "/"
-                        + commonModulePackage + "/" + baseConvertName + StringPool.DOT_JAVA;
+                return customProperty.getCommonModulePath() + "/BaseConvert" + StringPool.DOT_JAVA;
             }
         });
         // 添加#Convert.java的输出文件配置
-        focList.add(new FileOutConfig("/templates/MyConvert.java.vm") {
+        focList.add(new FileOutConfig("/templates/Convert.java.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                return sourcePath + "/" + pc.getParent().replace(".", "/") + "/" + convertModulePackage
-                        + "/" + getEntityName(tableInfo) + convertModuleObjectSuffix + StringPool.DOT_JAVA;
+                return customProperty.getConvertModulePath()
+                        + "/" + getEntityName(tableInfo) + customProperty.getConvertModuleObjectSuffix() + StringPool.DOT_JAVA;
             }
         });
         // 添加MybatisPlusConfig.java的输出文件配置
         focList.add(new FileOutConfig("/templates/MybatisPlusConfig.java.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                return sourcePath + "/" + sourceParentPackage.replace(".", "/") + "/"
-                        + configModulePackage + "/MybatisPlusConfig" + StringPool.DOT_JAVA;
+                return customProperty.getConfigModulePath() + "/MybatisPlusConfig" + StringPool.DOT_JAVA;
             }
         });
         // 添加SwaggerConfig.java的输出文件配置
         focList.add(new FileOutConfig("/templates/SwaggerConfig.java.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                return sourcePath + "/" + sourceParentPackage.replace(".", "/") + "/"
-                        + configModulePackage + "/SwaggerConfig" + StringPool.DOT_JAVA;
+                return customProperty.getConfigModulePath() + "/SwaggerConfig" + StringPool.DOT_JAVA;
+            }
+        });
+        // 添加Result.java的输出文件配置
+        focList.add(new FileOutConfig("/templates/Result.java.vm") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return customProperty.getResultPath() + "/Result" + StringPool.DOT_JAVA;
+            }
+        });
+        // 添加ApiResponseBodyAdvice.java的输出文件配置
+        focList.add(new FileOutConfig("/templates/ApiResponseBodyAdvice.java.vm") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return customProperty.getAdvicePath() + "/ApiResponseBodyAdvice" + StringPool.DOT_JAVA;
+            }
+        });
+        // 添加ApiLogAspect.java的输出文件配置
+        focList.add(new FileOutConfig("/templates/ApiLogAspect.java.vm") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return customProperty.getCommonModulePath() + "/ApiLogAspect" + StringPool.DOT_JAVA;
             }
         });
 //        cfg.setFileCreate(new IFileCreate() {
@@ -236,7 +274,7 @@ public class CodeGenerator {
         templateConfig.setServiceImpl("templates/MyServiceImpl.java");
         templateConfig.setMapper("templates/MyMapper.java");
         templateConfig.setXml(null); // 设置为null，不与自定义输出文件配置冲突
-        templateConfig.setEntity("templates/MyPo.java");
+        templateConfig.setEntity("templates/Po.java");
         mpg.setTemplate(templateConfig); // 设置配置模板
 
         // 策略配置
@@ -268,5 +306,200 @@ public class CodeGenerator {
         }
 
         return entityName;
+    }
+
+}
+
+/**
+ * 自定义参数
+ */
+@Data
+class CustomProperty {
+    /**
+     * 当前项目的根路径
+     */
+    String projectPath = System.getProperty("user.dir");
+    /**
+     * 源码路径
+     */
+    String sourcePath = "/src/main/java";
+    /**
+     * 资源路径
+     */
+    String resourcePath = "/src/main/resources";
+    /**
+     * 源码父包
+     */
+    String sourceParentPackage = "com.sword.demo";
+
+    /**
+     * 模块名
+     */
+    String moduleName = "";
+
+    /**
+     * 表示层父包
+     */
+    String interfacesParentPackage = "interfaces";
+    /**
+     * 持久层父包
+     */
+    String repositoryParentPackage = "repository";
+    /**
+     * 视图对象模块的包名
+     */
+    String voModulePackage = "model";
+    /**
+     * 视图对象模块的包名
+     */
+    String commonModulePackage = "common";
+    /**
+     * 配置对象模块的包名
+     */
+    String configModulePackage = "config";
+    /**
+     * 转换模块的包名
+     */
+    String convertModulePackage = "convert";
+    /**
+     * mybatis的xml文件的包名
+     */
+    String xmlModulePackage = "mapper";
+    /**
+     * 转换模块的类名的后缀
+     */
+    String convertModuleObjectSuffix = "Convert";
+    /**
+     * mybatis的xml文件的名称的的后缀
+     */
+    String xmlModuleFileSuffix = "Mapper";
+    /**
+     * 对外接口统一返回结果类的包名
+     */
+    String resultPackage = "response";
+    /**
+     * 视图对象模块的类名的后缀
+     */
+    String voModuleObjectSuffix = "Vo";
+    /**
+     * advice包名
+     */
+    String advicePackage = "advice";
+
+    public String getSourcePath() {
+        return getProjectPath() + this.sourcePath;
+    }
+
+    public String getResourcePath() {
+        return getProjectPath() + this.resourcePath;
+    }
+
+    public String getModulePackage() {
+        if (StringUtils.isBlank(moduleName)) {
+            return getSourceParentPackage();
+        }
+        else {
+            return getSourceParentPackage() + "." + moduleName;
+        }
+    }
+
+    public String getInterfacesPackage() {
+        if (StringUtils.isBlank(interfacesParentPackage)) {
+            return getModulePackage();
+        }
+        else {
+            return getModulePackage() + "." + interfacesParentPackage;
+        }
+    }
+
+    public String getRepositoryPackage() {
+        if (StringUtils.isBlank(repositoryParentPackage)) {
+            return getModulePackage();
+        }
+        else {
+            return getModulePackage() + "." + repositoryParentPackage;
+        }
+    }
+
+    public String getVoModulePackage() {
+        if (StringUtils.isBlank(voModulePackage)) {
+            return getInterfacesPackage();
+        }
+        else {
+            return getInterfacesPackage() + "." + voModulePackage;
+        }
+    }
+
+    public String getVoModulePath() {
+        return getSourcePath() + "/" + getVoModulePackage().replace(".", "/");
+    }
+
+    public String getCommonModulePackage() {
+        if (StringUtils.isBlank(commonModulePackage)) {
+            return getSourceParentPackage();
+        }
+        else {
+            return getSourceParentPackage() + "." + commonModulePackage;
+        }
+    }
+
+    public String getCommonModulePath() {
+        return getSourcePath() + "/" + getCommonModulePackage().replace(".", "/");
+    }
+
+    public String getConfigModulePackage() {
+        if (StringUtils.isBlank(configModulePackage)) {
+            return getSourceParentPackage();
+        }
+        else {
+            return getSourceParentPackage() + "." + configModulePackage;
+        }
+    }
+
+    public String getConfigModulePath() {
+        return getSourcePath() + "/" + getConfigModulePackage().replace(".", "/");
+    }
+
+    public String getConvertModulePackage() {
+        if (StringUtils.isBlank(convertModulePackage)) {
+            return getModulePackage();
+        }
+        else {
+            return getModulePackage() + "." + convertModulePackage;
+        }
+    }
+
+    public String getConvertModulePath() {
+        return getSourcePath() + "/" + getConvertModulePackage().replace(".", "/");
+    }
+
+    public String getXmlModulePath() {
+        return getResourcePath() + "/" + xmlModulePackage + "/" + moduleName;
+    }
+
+    public String getResultPackage() {
+        if (StringUtils.isBlank(resultPackage)) {
+            return getInterfacesPackage();
+        }
+        else {
+            return getInterfacesPackage() + "." + resultPackage;
+        }
+    }
+
+    public String getResultPath() {
+        return getSourcePath() + "/" + getResultPackage().replace(".", "/");
+    }
+
+    public String getAdvicePackage() {
+        if (StringUtils.isBlank(advicePackage)) {
+            return getInterfacesPackage();
+        }
+        else {
+            return getInterfacesPackage() + "." + advicePackage;
+        }
+    }
+
+    public String getAdvicePath() {
+        return getSourcePath() + "/" + getAdvicePackage().replace(".", "/");
     }
 }

@@ -1,4 +1,4 @@
-package com.sword.demo.model;
+package com.sword.demo.interfaces.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author sword
- * @date 2020-07-06 19:39:35
+ * @date 2020-07-07 11:13:57
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
