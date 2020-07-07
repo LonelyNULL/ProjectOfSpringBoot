@@ -1,0 +1,54 @@
+package ${convertPackage};
+
+import java.util.List;
+import org.mapstruct.Mapper;
+import ${package.Entity}.${entity};
+import ${voPackage}.${voName};
+
+/**
+ * $!{table.comment} 转换类
+ * @author ${author}
+ * @date ${cfg.datetime}
+ */
+@Mapper(componentModel = "spring")
+public interface ${convertName} {
+    /**
+     * ${entity}转${voName}
+     *
+     * @param ${voInstName} ${entity}
+     * @return ${voName} ${voName}
+     * @author ${author}
+     * @date ${cfg.datetime}
+     */
+    ${voName} convertTo(${entity} ${voInstName});
+
+    /**
+     * ${voName}转回${entity}
+     *
+     * @param ${poInstName} ${voName}
+     * @return ${entity} ${entity}
+     * @author ${author}
+     * @date ${cfg.datetime}
+     */
+    ${entity} convertFrom(${voName} ${poInstName});
+
+    /**
+     * ${entity}列表转${voName}列表
+     *
+     * @param ${voInstName}List ${entity}列表
+     * @return List<${voName}> ${voName}列表
+     * @author ${author}
+     * @date ${cfg.datetime}
+     */
+    List<${voName}> convertToList(List<${entity}> ${voInstName}List);
+
+    /**
+     * ${voName}列表转回${entity}列表
+     *
+     * @param ${poInstName}List ${voName}列表
+     * @return List<${entity}> ${entity}列表
+     * @author ${author}
+     * @date ${cfg.datetime}
+     */
+    List<${entity}> convertFromList(List<${voName}> ${poInstName}List);
+}
