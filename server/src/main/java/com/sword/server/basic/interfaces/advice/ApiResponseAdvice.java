@@ -1,0 +1,42 @@
+package com.united.erp.salary.interfaze.advice;
+
+import com.united.erp.salary.common.util.ApiUtil;
+import com.united.erp.salary.interfaze.response.Result;
+import org.springframework.core.MethodParameter;
+import org.springframework.http.MediaType;
+import org.springframework.http.server.ServerHttpRequest;
+import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+
+/**
+ * api接口返回值统一处理
+ */
+@ControllerAdvice(basePackages = "com.united.erp.salary.interfaze.api")
+public class ApiResponseBodyAdvice implements ResponseBodyAdvice<Object> {
+    /**
+     * 是否处理
+     * @param returnType
+     * @param converterType
+     * @return
+     */
+    @Override
+    public boolean supports(MethodParameter returnType, Class converterType) {
+        return true;
+    }
+
+    /**
+     * 统一处理
+     * @param body
+     * @param returnType
+     * @param selectedContentType
+     * @param selectedConverterType
+     * @param request
+     * @param response
+     * @return
+     */
+    @Override
+    public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
+        return body instanceof Result ? body : ApiUtil.success(body);
+    }
+}
