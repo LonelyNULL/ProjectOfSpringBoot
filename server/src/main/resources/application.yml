@@ -1,37 +1,43 @@
 server:
-  port: 8080 # Ó¦ÓÃ¶Ë¿Ú
+  port: 8080 # åº”ç”¨ç«¯å£
   servlet:
-    context-path: /demo # Ó¦ÓÃ¸ùÂ·¾¶
-# mybatis-plusÅäÖÃ
+    context-path: /demo # åº”ç”¨æ ¹è·¯å¾„
+# mybatis-plusé…ç½®
 mybatis-plus:
-  mapper-locations: classpath*:mapper/*Mapper.xml # xmlÓ³ÉäÎÄ¼şÂ·¾¶
-  # È«¾ÖÅäÖÃ
+  mapper-locations: classpath*:mapper/*Mapper.xml # xmlæ˜ å°„æ–‡ä»¶è·¯å¾„
+  # å…¨å±€é…ç½®
   global-config:
-    # Êı¾İ¿âÅäÖÃ
+    # æ•°æ®åº“é…ç½®
     db-config:
-      id-type: auto # È«¾ÖÄ¬ÈÏÖ÷¼üÀàĞÍ£ºÊı¾İ¿âID×ÔÔö
-      insert-strategy: not_empty # ×Ö·û´®·Ç¿ÕÅĞ¶Ï£¬ÆäËûÀàĞÍ·ÇNULLÅĞ¶Ï£¬¼´ÓĞÖµ²Å½øĞĞinsert
-      update-strategy: not_empty # ×Ö·û´®·Ç¿ÕÅĞ¶Ï£¬ÆäËûÀàĞÍ·ÇNULLÅĞ¶Ï£¬¼´ÓĞÖµ²Å½øĞĞupdate
-      # Âß¼­É¾³ı×Ö¶Î
-      # ²åÈë: ²»×÷ÏŞÖÆ
-      # ²éÕÒ: ×·¼ÓwhereÌõ¼ş¹ıÂËµôÒÑÉ¾³ıÊı¾İ,ÇÒÊ¹ÓÃ wrapper.entity Éú³ÉµÄwhereÌõ¼ş»áºöÂÔ¸Ã×Ö¶Î
-      # ¸üĞÂ: ×·¼ÓwhereÌõ¼ş·ÀÖ¹¸üĞÂµ½ÒÑÉ¾³ıÊı¾İ,ÇÒÊ¹ÓÃ wrapper.entity Éú³ÉµÄwhereÌõ¼ş»áºöÂÔ¸Ã×Ö¶Î
-      # É¾³ı: ×ª±äÎª ¸üĞÂ
+      id-type: auto # å…¨å±€é»˜è®¤ä¸»é”®ç±»å‹ï¼šæ•°æ®åº“IDè‡ªå¢
+      insert-strategy: not_empty # å­—ç¬¦ä¸²éç©ºåˆ¤æ–­ï¼Œå…¶ä»–ç±»å‹éNULLåˆ¤æ–­ï¼Œå³æœ‰å€¼æ‰è¿›è¡Œinsert
+      update-strategy: not_empty # å­—ç¬¦ä¸²éç©ºåˆ¤æ–­ï¼Œå…¶ä»–ç±»å‹éNULLåˆ¤æ–­ï¼Œå³æœ‰å€¼æ‰è¿›è¡Œupdate
+      # é€»è¾‘åˆ é™¤å­—æ®µ
+      # æ’å…¥: ä¸ä½œé™åˆ¶
+      # æŸ¥æ‰¾: è¿½åŠ whereæ¡ä»¶è¿‡æ»¤æ‰å·²åˆ é™¤æ•°æ®,ä¸”ä½¿ç”¨ wrapper.entity ç”Ÿæˆçš„whereæ¡ä»¶ä¼šå¿½ç•¥è¯¥å­—æ®µ
+      # æ›´æ–°: è¿½åŠ whereæ¡ä»¶é˜²æ­¢æ›´æ–°åˆ°å·²åˆ é™¤æ•°æ®,ä¸”ä½¿ç”¨ wrapper.entity ç”Ÿæˆçš„whereæ¡ä»¶ä¼šå¿½ç•¥è¯¥å­—æ®µ
+      # åˆ é™¤: è½¬å˜ä¸º æ›´æ–°
       logic-delete-field: deleted
       logic-delete-value: 1
       logic-not-delete-value: 0
 
 ---
-# ¿ª·¢»·¾³
+# å¼€å‘ç¯å¢ƒ
 spring:
   profiles: dev
-  # ÈÈ²¿Êğ
+  # çƒ­éƒ¨ç½²
   devtools:
     restart:
-      enabled: true # ¿ªÆôÈÈ²¿Êğ
-  # Êı¾İÔ´
+      enabled: true # å¼€å¯çƒ­éƒ¨ç½²
+  # æ•°æ®æº
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/demo?characterEncoding=utf-8&serverTimezone=GMT%2B8
     username: root
     password: root
+
+logging:
+  file:
+    path: ./log # æ—¥å¿—æ–‡ä»¶è·¯å¾„
+  level: # æ—¥å¿—ç­‰çº§
+    com.sword: debug

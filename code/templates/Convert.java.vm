@@ -15,40 +15,40 @@ public interface ${convertName} {
     /**
      * ${entity}转${voName}
      *
-     * @param ${voInstName} ${entity}
-     * @return ${voName} ${voName}
+     * @param ${poInstName} ${entity}
+     * @return ${voName}
      * @author ${author}
      * @date ${cfg.datetime}
      */
-    ${voName} convertTo(${entity} ${voInstName});
+    ${voName} convertTo(${entity} ${poInstName});
 
     /**
      * ${voName}转回${entity}
      *
-     * @param ${poInstName} ${voName}
-     * @return ${entity} ${entity}
+     * @param ${voInstName} ${voName}
+     * @return ${entity}
      * @author ${author}
      * @date ${cfg.datetime}
      */
-    ${entity} convertFrom(${voName} ${poInstName});
+    ${entity} convertFrom(${voName} ${voInstName});
 
     /**
      * ${entity}列表转${voName}列表
      *
-     * @param ${voInstName}List ${entity}列表
-     * @return List<${voName}> ${voName}列表
+     * @param ${poInstName}List ${entity}列表
+     * @return List<${voName}>
      * @author ${author}
      * @date ${cfg.datetime}
      */
-    List<${voName}> convertToList(List<${entity}> ${voInstName}List);
+    List<${voName}> convertToList(List<${entity}> ${poInstName}List);
 
     /**
      * ${voName}列表转回${entity}列表
      *
-     * @param ${poInstName}List ${voName}列表
-     * @return List<${entity}> ${entity}列表
+     * @param ${voInstName}List ${voName}列表
+     * @return List<${entity}>
      * @author ${author}
      * @date ${cfg.datetime}
      */
-    List<${entity}> convertFromList(List<${voName}> ${poInstName}List);
+    List<${entity}> convertFromList(List<${voName}> ${voInstName}List);
 }

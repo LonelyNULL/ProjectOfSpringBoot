@@ -25,7 +25,7 @@ import ${package.Entity}.${entity};
 
 /**
  * <p>
- * $!{table.comment} 前端控制器
+ * $!{table.comment} 接口
  * </p>
  *
  * @author ${author}

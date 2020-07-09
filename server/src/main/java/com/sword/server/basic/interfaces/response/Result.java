@@ -1,8 +1,31 @@
 package com.sword.server.basic.interfaces.response;
 
+import lombok.Data;
+
+import lombok.Builder;
+import lombok.Data;
+
 /**
+ * 公共响应
  * @author sword
- * @date 2020/7/8 12:47
+ * @date 2020-07-07 11:13:57
  */
-public class Result {
+@Data
+@Builder
+public class Result<T> {
+
+    /**
+     * 响应码
+     */
+    private String code;
+
+    /**
+     * 响应内容
+     */
+    private String msg;
+
+    /**
+     * 响应数据
+     */
+    private T data;
 }

@@ -1,3 +1,4 @@
+package com.sword.server;
 
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
@@ -42,6 +43,7 @@ public class CodeGenerator {
 
     public static void main(String[] args) {
         CustomProperty customProperty = new CustomProperty();
+//        customProperty.setModuleName(scanner("模块名"));
 
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
@@ -60,7 +62,7 @@ public class CodeGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://localhost:3306/demo?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT%2B8"); // 设置驱动连接的URL
+        dsc.setUrl("jdbc:mysql://localhost:3306/demo?characterEncoding=utf-8&serverTimezone=GMT%2B8"); // 设置驱动连接的URL
         dsc.setDriverName("com.mysql.jdbc.Driver"); // 设置驱动名称
         dsc.setUsername("root"); // 设置数据库连接用户名
         dsc.setPassword("root"); // 设置数据库数据库连接密码
@@ -209,11 +211,11 @@ public class CodeGenerator {
         strategy.setColumnNaming(NamingStrategy.underline_to_camel); // 数据库表字段映射到实体的命名策略，下划线转驼峰
         strategy.setEntityLombokModel(true); // 实体为lombok模型
         strategy.setRestControllerStyle(true); // 生成 @RestController 控制器
-//        strategy.setInclude(scanner("表名，多个英文逗号分割").split(",")); // 需要生成对应代码的表
-        strategy.setInclude("user");
+        strategy.setInclude(scanner("表名，多个英文逗号分割").split(",")); // 需要生成对应代码的表
         strategy.setControllerMappingHyphenStyle(true); // controller类上的mapping的路径由驼峰转连字符
         strategy.setLogicDeleteFieldName("deleted"); // 逻辑删除字段
         mpg.setStrategy(strategy); // 设置配置策略
+
         mpg.execute(); // 生成代码
     }
 

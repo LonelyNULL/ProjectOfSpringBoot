@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * $!{table.comment}
+ * $!{table.comment} 视图对象
  * </p>
  *
  * @author ${author}
