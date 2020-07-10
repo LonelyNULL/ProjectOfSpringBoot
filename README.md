@@ -771,6 +771,20 @@
     1. 异步方法的返回值为void或者Future
     2. 异步方法和调用方法不得在同一个类
 
+## 打包运行
+
+* 在IDEA的maven窗口运行`package`进行打包
+
+    ![打包](https://github.com/LonelyNULL/ProjectOfSpringBoot/blob/master/image/7.%E6%89%93%E5%8C%85%E8%BF%90%E8%A1%8C1.png?raw=true)
+
+* 打包成功可以在项目根目录下的`target`文件夹下找到打出来的jar包
+
+    ![找到打出来的jar包](https://github.com/LonelyNULL/ProjectOfSpringBoot/blob/master/image/7.%E6%89%93%E5%8C%85%E8%BF%90%E8%A1%8C2.png?raw=true)
+
+* 在命令行窗口执行`java -jar -Dspring.profiles.active=dev ${jar包绝对路径}`即可运行应用
+
+    ![运行应用](https://github.com/LonelyNULL/ProjectOfSpringBoot/blob/master/image/7.%E6%89%93%E5%8C%85%E8%BF%90%E8%A1%8C3.png?raw=true)
+
 ## 问题
 
 * 启用应用失败，控制台输出如下内容：
