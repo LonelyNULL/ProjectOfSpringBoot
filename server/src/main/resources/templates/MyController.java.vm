@@ -1,7 +1,11 @@
 package ${package.Controller};
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
 #if(${restControllerStyle})
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +40,7 @@ import ${package.Entity}.${entity};
 #else
 @Controller
 #end
-@RequestMapping("#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
+@RequestMapping("/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
 #if(${swagger2})
 @Api(tags = {"$!{table.comment} 接口"})
 #end
@@ -143,6 +147,24 @@ public class ${table.controllerName} {
     public ${voName} get${entityName}(@PathVariable("${keyName}") ${keyType} ${keyName}) {
         ${entity} ${poInstName} = ${serviceInstName}.getById(${keyName}); // 查询单个$!{table.comment}
         return ${convertInstName}.convertTo(${poInstName}); // 持久化对象转视图对象
+    }
+
+    /**
+     * 查询多个$!{table.comment}
+     * @param ${voInstName} 查询条件
+     * @return java.util.List<${voPackage}.${voName}> 多个$!{table.comment}
+     * @author ${author}
+     * @date ${cfg.datetime}
+     */
+    @GetMapping("")
+    @ResponseStatus(HttpStatus.OK)
+    #if(${swagger2})
+    @ApiOperation("查询多个$!{table.comment}")
+    #end
+    public List<${voName}> list${entityName}(${voName} ${voInstName}) {
+        QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>(${convertInstName}.convertFrom(${voInstName}));
+
+        return ${convertInstName}.convertToList(${serviceInstName}.list(queryWrapper));
     }
 
 }

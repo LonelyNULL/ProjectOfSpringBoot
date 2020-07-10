@@ -7,22 +7,20 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 用户表
+ * 用户 视图对象
  * </p>
  *
  * @author sword
- * @date 2020-07-07 21:24:30
+ * @date 2020-07-10 08:30:47
  */
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="UserVo对象", description="用户表")
+@ApiModel(value="UserVo对象", description="用户")
 public class UserVo implements Serializable {
 
     private static final long serialVersionUID=1L;

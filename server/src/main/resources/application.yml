@@ -20,16 +20,17 @@ mybatis-plus:
       logic-delete-field: deleted
       logic-delete-value: 1
       logic-not-delete-value: 0
-
 ---
+
 # 开发环境
+
 spring:
   profiles: dev
   # 热部署
   devtools:
     restart:
       enabled: true # 开启热部署
-  # 数据源
+  # 数据源，设置成上面新建的数据库的参数
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/demo?characterEncoding=utf-8&serverTimezone=GMT%2B8
@@ -41,3 +42,4 @@ logging:
     path: ./log # 日志文件路径
   level: # 日志等级
     com.sword: debug
+    io.swagger.models.parameters.AbstractSerializableParameter: error
