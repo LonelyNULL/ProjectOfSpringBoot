@@ -506,7 +506,7 @@
      * 对外接口响应结果统一包装
      * ControllerAdvice如果不指定具体的包可能会导致Swagger-ui.html页面无法打开，报“Unable to infer base url....”错误
      */
-    @ControllerAdvice
+    @ControllerAdvice("com.sword.server.demo.interfaces.api")
     @Slf4j
     public class ApiResponseAdvice implements ResponseBodyAdvice<Object> {
         /**
@@ -701,6 +701,23 @@
     public UserVo insertUser(@RequestBody UserVo userVo) {
         UserPo userPo = userConvert.convertFrom(userVo); // 视图对象转持久化对象
         userService.save(userPo); // 添加用户表
+        return userConvert.convertTo(userPo); // 持久化对象转视图对象
+    }
+    ```
+
+* 默认对Error异常和RuntimeException异常以及其子类进行事务回滚，且必须抛出异常，如果在方法中使用try-catch捕获了异常则无法进行事务回滚
+
+* 自定义需要回滚的异常，如下：
+
+    ```java
+    @Transactional(rollbackFor = Exception.class)
+    public UserVo insertUser(@RequestBody UserVo userVo) throws Exception {
+        UserPo userPo = userConvert.convertFrom(userVo); // 视图对象转持久化对象
+        userService.save(userPo); // 添加用户
+
+        if (userPo != null) {
+            throw new Exception("添加用户异常");
+        }
         return userConvert.convertTo(userPo); // 持久化对象转视图对象
     }
     ```

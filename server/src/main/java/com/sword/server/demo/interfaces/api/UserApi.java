@@ -2,7 +2,10 @@ package com.sword.server.demo.interfaces.api;
 
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.sword.server.basic.interfaces.request.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -63,9 +66,14 @@ public class UserApi {
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation("添加用户")
-    public UserVo insertUser(@RequestBody UserVo userVo) {
+    @Transactional(rollbackFor = Exception.class)
+    public UserVo insertUser(@RequestBody UserVo userVo) throws Exception {
         UserPo userPo = userConvert.convertFrom(userVo); // 视图对象转持久化对象
         userService.save(userPo); // 添加用户
+
+        if (userPo != null) {
+            throw new Exception("添加用户异常");
+        }
         return userConvert.convertTo(userPo); // 持久化对象转视图对象
     }
 
@@ -113,26 +121,45 @@ public class UserApi {
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation("查询单个用户")
     @ApiImplicitParam(name = "id", value = "用户主键id", required = true)
-    public UserVo getUser(@PathVariable("id") Integer id) {
+    public UserVo getUser(@PathVariable("id") Integer id) throws InterruptedException {
+        userService.sleep();
+
         UserPo userPo = userService.getById(id); // 查询单个用户
         return userConvert.convertTo(userPo); // 持久化对象转视图对象
     }
 
+//    /**
+//     * 查询多个用户
+//     * @param userVo 查询条件
+//     * @return java.util.List<com.sword.server.demo.interfaces.model.UserVo> 多个用户
+//     * @author sword
+//     * @date 2020-07-10 08:30:47
+//     */
+//    @GetMapping("")
+//    @ResponseStatus(HttpStatus.OK)
+//    @ApiOperation("查询多个用户")
+//    public List<UserVo> listUser(UserVo userVo) {
+//        QueryWrapper<UserPo> queryWrapper = new QueryWrapper<>(userConvert.convertFrom(userVo));
+//
+//        return userConvert.convertToList(userService.list(queryWrapper));
+//    }
+
     /**
-     * 查询多个用户
+     * 分页查询用户
      * @param userVo 查询条件
-     * @return java.util.List<com.sword.server.demo.interfaces.model.UserVo> 多个用户
+     * @param page 分页请求
+     * @return com.baomidou.mybatisplus.core.metadata.IPage<com.sword.server.demo.interfaces.model.UserVo> 用户分页查询结果
      * @author sword
-     * @date 2020-07-10 08:30:47
+     * @date 2020/7/9 18:54
      */
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation("查询多个用户")
-    public List<UserVo> listUser(UserVo userVo) {
+    @ApiOperation("分页查询用户")
+    public IPage<UserVo> listUser(UserVo userVo, PageRequest page) {
+
         QueryWrapper<UserPo> queryWrapper = new QueryWrapper<>(userConvert.convertFrom(userVo));
 
-        return userConvert.convertToList(userService.list(queryWrapper));
+        return userService.page(page.buildPage(), queryWrapper).convert(userConvert::convertTo);
     }
-
 }
 
